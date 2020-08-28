@@ -19,34 +19,34 @@ const UserSchema = new mongoose.Schema({
  * 3.Else we call bcrypt function genSalt (valueSalt)
  * 4.Then we call hash function (hash password with salt value above)
  * 5.Finally we set user password to hash value
+ * 6.We must define parameter done for resolve middlewares if we dont have request cant be done.
  *  */ 
 UserSchema.pre('save',function(done){
   const user = this;
   if(!user.isModified('password')) 
     return done();
-  brcrypt.genSalt(100,(err,salt) => {
+  brcrypt.genSalt(10,(err,salt) => {
     if(err) 
-      return next(err);
+      return done(err);
     brcrypt.hash(user.password,salt,(err,hash) => {
       if(err)
-        return next(err);
+        return done(err);
       user.password = hash;
-      next();
+      done();
     });
   });
 });
 
 //Compare
 /**
- * 1.Add new property for UserSchema call it comparePassword
- * 2.Return new Promise with compare method of bcrypt
- * 3.Compare parameter password with hash value in out database
+ * 1.Add new property (function) for UserSchema call it comparePassword
+ * 2.Return new Promise with compare method of bcrypt library
+ * 3.Compare passwordNeedToCompare with password hash value in our database
  */
-
-UserSchema.methods.comparePassword = function comparePassword(comparePassword){
+UserSchema.methods.comparePassword = function comparePassword(passwordNeedToCompare){
   const user = this;
   return new Promise((resolve,reject) => {
-    brcrypt.compare(comparePassword,user.password,(err,isMatchPassword) => {
+    brcrypt.compare(passwordNeedToCompare,user.password,(err,isMatchPassword) => {
       if(err)
         return reject(err)
       if(!isMatchPassword)
