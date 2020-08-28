@@ -325,7 +325,4 @@ mongodb mongoose ngrok nodemon
       - 2.POST TRACKS: This method create a POST HTTP REQUEST to server and create newTrack,with trackName and locations were provided by request body,and _userID from middlewares.
     - So we can recognize the important of JWT in this Server.Many data,many information have been protected by JWT and we can use it too easy with Token.
 
-  ##  <b>5. TEST OUR SERVER  
-  <img src='./src/assets/getTrack.png'>
-    <img src='./src/assets/getUserWithToken.png'>
-      <img src='./src/assets/login.png'>
+# Happy coding ^^
